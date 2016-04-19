@@ -86,14 +86,14 @@ while (t < 5):
     rate(myrate)
 
     # Add the equation for spring force
-    f_Spring = -1 * k_spring * block.pos.x
+    f_Spring = -1 * k_spring * block.pos
     # Add equation for air resistance (damped oscillator) [- u * block.vel * mag(block.vel)]
-    air_resistance = - u * block.vel.x * mag(block.vel)
+    air_resistance = - u * block.vel * mag(block.vel)
     # Add net force
     net_force = f_Spring + air_resistance
 
     # Update momentum of the block
-    block.p.x += net_force * dt
+    block.p += net_force * dt
     # Calculate velocity of the block
     block.vel.x = block.p.x/block_mass
     # Update position of the block
@@ -103,7 +103,8 @@ while (t < 5):
     KE = .5 * block_mass * mag(block.vel)**2
     PE = .5 * k_spring * block.pos.x**2
     # Calculate work hint(W=F*d)
-    work = net_force * block.pos.x
+    # work = net_force * block.pos.x
+    work += dot(air_resistance, block.vel*dt)
 
 
     #time update
