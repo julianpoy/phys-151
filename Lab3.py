@@ -18,6 +18,9 @@ scene = display(title='Spring',
 graph_spring_x = gdisplay(title=' Position x ',xtitle=' time(sec) ',ytitle=' m ',
     x=80, y= 320, foreground=color.black, background=color.white)
 
+graph_spring_v = gdisplay(title=' Velocity x ',xtitle=' time(sec) ',ytitle=' m ',
+    x=80, y= 320, foreground=color.black, background=color.white)
+
 #############################
 
 # Add an energy graph output (can be done after part 1 of worksheet)
@@ -57,14 +60,14 @@ block.vel = block.p/block_mass
 
 
 posplot = gcurve(gdisplay=graph_spring_x, color=color.red)
-#vplot = gcurve(gdisplay=graph_spring_v, color=color.magenta)
+vplot = gcurve(gdisplay=graph_spring_v, color=color.magenta)
 
 myrate = 2000
 
 bx_old = block.pos.x
 t1 = -1
 
-scene.mouse.getclick()
+scene.waitfor("keydown")
 # initialize KE(initial),PE(initial) and Work=0
 
 work = 0
@@ -74,13 +77,18 @@ while (t < 5):
     rate(myrate)
 
     # Add the equation for spring force
+    f_Spring = -1 * k_spring * block.pos.x
     # Add equation for air resistance (damped oscillator) [- u * block.vel * mag(block.vel)]
+    air_resistance = - u * block.vel.x * mag(block.vel)
     # Add net force
+    net_force = f_Spring + air_resistance
 
     # Update momentum of the block
+    block.p.x += net_force * dt
     # Calculate velocity of the block
+    block.vel.x = block.p.x/block_mass
     # Update position of the block
-
+    block.pos.x += block.vel.x * dt
 
     # Calculate energy: KE and PE
     # Calculate work hint(W=F*d)
@@ -89,8 +97,8 @@ while (t < 5):
     #time update
     t +=  dt
 
-    #posplot.plot(pos=(t,block.pos.x))
-    #vplot.plot(pos=(t,block.vel.x))
+    posplot.plot(pos=(t,block.pos.x))
+    vplot.plot(pos=(t,block.vel.x))
 
     # Plot energy and work on the same graph
     # Look at the worksheet for all the needed plots (5 curves in one graph)
@@ -107,4 +115,4 @@ while (t < 5):
 
         t1 = t
 
-    #bx_old = block.pos.x
+    bx_old = block.pos.x
