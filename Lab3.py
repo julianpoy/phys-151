@@ -21,6 +21,9 @@ graph_spring_x = gdisplay(title=' Position x ',xtitle=' time(sec) ',ytitle=' m '
 graph_spring_v = gdisplay(title=' Velocity x ',xtitle=' time(sec) ',ytitle=' m ',
     x=80, y= 320, foreground=color.black, background=color.white)
 
+graph_spring_e = gdisplay(title=' Energy x ',xtitle=' time(sec) ',ytitle=' m ',
+    x=80, y= 320, foreground=color.black, background=color.white)
+
 #############################
 
 # Add an energy graph output (can be done after part 1 of worksheet)
@@ -61,6 +64,11 @@ block.vel = block.p/block_mass
 
 posplot = gcurve(gdisplay=graph_spring_x, color=color.red)
 vplot = gcurve(gdisplay=graph_spring_v, color=color.magenta)
+peplot = gcurve(gdisplay=graph_spring_e, color=color.magenta)
+keplot = gcurve(gdisplay=graph_spring_e, color=color.magenta)
+meplot = gcurve(gdisplay=graph_spring_e, color=color.blue)
+ewplot = gcurve(gdisplay=graph_spring_e, color=color.yellow)
+wiplot = gcurve(gdisplay=graph_spring_e, color=color.black)
 
 myrate = 2000
 
@@ -91,7 +99,10 @@ while (t < 5):
     block.pos.x += block.vel.x * dt
 
     # Calculate energy: KE and PE
+    KE = .5 * block_mass * block.vel.x**2
+    PE = .5 * k_spring * block.pos.x**2
     # Calculate work hint(W=F*d)
+    work = net_force * block.pos.x
 
 
     #time update
@@ -102,7 +113,11 @@ while (t < 5):
 
     # Plot energy and work on the same graph
     # Look at the worksheet for all the needed plots (5 curves in one graph)
-
+    keplot.plot(pos=(t,KE))
+    peplot.plot(pos=(t,PE))
+    meplot.plot(pos=(t,PE+KE))
+    ewplot.plot(pos=(t,PE+KE - work))
+    wiplot.plot(pos=(t,work))
 
 
     if (bx_old < 0) and (block.pos.x > 0) :
