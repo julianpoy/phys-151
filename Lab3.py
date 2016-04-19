@@ -67,7 +67,7 @@ vplot = gcurve(gdisplay=graph_spring_v, color=color.magenta)
 peplot = gcurve(gdisplay=graph_spring_e, color=color.magenta)
 keplot = gcurve(gdisplay=graph_spring_e, color=color.magenta)
 meplot = gcurve(gdisplay=graph_spring_e, color=color.blue)
-ewplot = gcurve(gdisplay=graph_spring_e, color=color.yellow)
+ewplot = gcurve(gdisplay=graph_spring_e, color=color.red)
 wiplot = gcurve(gdisplay=graph_spring_e, color=color.black)
 
 myrate = 2000
@@ -77,7 +77,8 @@ t1 = -1
 
 scene.waitfor("keydown")
 # initialize KE(initial),PE(initial) and Work=0
-
+KE = 0
+PE = 0
 work = 0
 # use magnitude for the velocity (KE) and position (PE)
 
@@ -99,7 +100,7 @@ while (t < 5):
     block.pos.x += block.vel.x * dt
 
     # Calculate energy: KE and PE
-    KE = .5 * block_mass * block.vel.x**2
+    KE = .5 * block_mass * mag(block.vel)**2
     PE = .5 * k_spring * block.pos.x**2
     # Calculate work hint(W=F*d)
     work = net_force * block.pos.x
